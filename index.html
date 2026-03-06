@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
+  <title>Iron HUD</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Webcam is hidden behind the helmet interface but still used for tracking -->
+    <video id="webcam" autoplay playsinline muted></video>
+    <canvas id="videoFx"></canvas>
+    <canvas id="hud"></canvas>
+
+    <div id="topBar">
+      <div class="brand">STARK SYSTEMS // HELMET INTERFACE</div>
+      <div id="statusPill" class="ok">BOOTING</div>
+    </div>
+
+    <div id="controls">
+      <button id="startBtn">Start HUD</button>
+      <button id="fullscreenBtn">Fullscreen</button>
+      <button id="calibrateBtn">Calibrate</button>
+      <button id="debugBtn">Debug: Off</button>
+    </div>
+
+    <div id="readouts">
+      <div class="readout">
+        <span class="label">Tracking</span>
+        <span id="trackingText">OFFLINE</span>
+      </div>
+      <div class="readout">
+        <span class="label">Camera</span>
+        <span id="cameraText">Unknown</span>
+      </div>
+      <div class="readout">
+        <span class="label">Lighting</span>
+        <span id="lightingText">Unknown</span>
+      </div>
+      <div class="readout">
+        <span class="label">Pose</span>
+        <span id="poseText">yaw 0 / pitch 0 / roll 0</span>
+      </div>
+    </div>
+
+    <div id="warningBanner">LOW LIGHT / TRACKING DEGRADED</div>
+
+    <div id="voiceTextWrap">
+      <div id="voiceText">SYSTEM STANDBY</div>
+    </div>
+
+    <details id="debugPanel">
+      <summary>Debug Console</summary>
+      <textarea id="logs" readonly spellcheck="false"></textarea>
+    </details>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
