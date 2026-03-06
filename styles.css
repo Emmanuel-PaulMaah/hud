@@ -1,0 +1,286 @@
+:root {
+  --bg: #03070d;
+  --panel: rgba(6, 18, 30, 0.58);
+  --line: rgba(90, 180, 255, 0.95);
+  --line-soft: rgba(90, 180, 255, 0.35);
+  --line-faint: rgba(90, 180, 255, 0.14);
+  --text: #c9ecff;
+  --warn: #ff6b6b;
+  --ok: #8dffd2;
+  --glow: 0 0 14px rgba(90, 180, 255, 0.55), 0 0 32px rgba(90, 180, 255, 0.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: radial-gradient(circle at center, #07131f 0%, #03070d 55%, #010205 100%);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+  position: relative;
+}
+
+#app {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#webcam {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.04;
+  transform: scaleX(-1);
+  filter: contrast(1.08) brightness(0.44) saturate(0.7) blur(0.3px);
+  pointer-events: none;
+}
+
+#videoFx,
+#hud {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+#topBar {
+  position: absolute;
+  top: 14px;
+  left: 18px;
+  right: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+  gap: 12px;
+}
+
+.brand {
+  padding: 8px 12px;
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  background: rgba(3, 10, 18, 0.6);
+  letter-spacing: 0.18em;
+  font-size: 11px;
+  text-transform: uppercase;
+  box-shadow: var(--glow);
+  backdrop-filter: blur(8px);
+}
+
+#statusPill {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line-soft);
+  background: rgba(3, 10, 18, 0.7);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  min-width: 120px;
+  text-align: center;
+  box-shadow: var(--glow);
+}
+
+#statusPill.ok {
+  color: var(--ok);
+}
+
+#statusPill.warn {
+  color: #ffd37c;
+  border-color: rgba(255, 211, 124, 0.4);
+  box-shadow: 0 0 14px rgba(255, 211, 124, 0.28);
+}
+
+#statusPill.bad {
+  color: var(--warn);
+  border-color: rgba(255, 107, 107, 0.4);
+  box-shadow: 0 0 14px rgba(255, 107, 107, 0.28);
+}
+
+#controls {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+  flex-wrap: wrap;
+}
+
+#controls button {
+  appearance: none;
+  border: 1px solid var(--line-soft);
+  background: linear-gradient(180deg, rgba(10, 30, 46, 0.8), rgba(4, 14, 22, 0.85));
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  box-shadow: var(--glow);
+  backdrop-filter: blur(8px);
+}
+
+#controls button:hover {
+  border-color: var(--line);
+}
+
+#readouts {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  z-index: 10;
+  width: min(360px, calc(100vw - 36px));
+  display: grid;
+  gap: 8px;
+}
+
+.readout {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--line-faint);
+  background: linear-gradient(180deg, rgba(4, 14, 24, 0.7), rgba(2, 7, 13, 0.82));
+  box-shadow: inset 0 0 0 1px rgba(90, 180, 255, 0.03), var(--glow);
+  font-size: 12px;
+}
+
+.readout .label {
+  color: rgba(201, 236, 255, 0.65);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+#voiceTextWrap {
+  position: absolute;
+  left: 50%;
+  bottom: 90px;
+  transform: translateX(-50%);
+  z-index: 10;
+  width: min(760px, calc(100vw - 40px));
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+#voiceText {
+  padding: 10px 18px;
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  background: rgba(4, 14, 24, 0.64);
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-align: center;
+  text-shadow: 0 0 8px rgba(90, 180, 255, 0.55);
+  box-shadow: var(--glow);
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#warningBanner {
+  position: absolute;
+  top: 58px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 11;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 107, 107, 0.45);
+  background: rgba(33, 6, 10, 0.75);
+  color: #ffd1d1;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 12px;
+  display: none;
+  box-shadow: 0 0 18px rgba(255, 107, 107, 0.22);
+}
+
+#warningBanner.show {
+  display: block;
+}
+
+#debugPanel {
+  position: absolute;
+  left: 20px;
+  top: 72px;
+  z-index: 15;
+  width: min(430px, calc(100vw - 40px));
+  border: 1px solid var(--line-faint);
+  border-radius: 14px;
+  background: rgba(3, 10, 18, 0.68);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--glow);
+}
+
+#debugPanel summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  list-style: none;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+#debugPanel summary::-webkit-details-marker {
+  display: none;
+}
+
+#logs {
+  width: 100%;
+  min-height: 180px;
+  resize: vertical;
+  border: 0;
+  border-top: 1px solid var(--line-faint);
+  background: transparent;
+  color: var(--text);
+  padding: 12px 14px 14px;
+  font: 12px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  outline: none;
+}
+
+@media (max-width: 760px) {
+  #topBar {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+  }
+
+  .brand {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+  }
+
+  #controls {
+    left: 10px;
+    bottom: 10px;
+  }
+
+  #readouts {
+    right: 10px;
+    bottom: 84px;
+  }
+
+  #debugPanel {
+    left: 10px;
+    top: 62px;
+    width: calc(100vw - 20px);
+  }
+}
